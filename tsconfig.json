@@ -1,0 +1,15 @@
+{
+    "ts-node": {
+        "esm": true,
+        "compilerOptions": {
+            "module": "ESNext",
+            "target": "ES2017",
+            "allowImportingTsExtensions": true
+        }
+    },
+    "compilerOptions": {
+        // Just to make the lint shut up!
+        "module": "ESNext",
+        "target": "ES2017"
+    }
+}
