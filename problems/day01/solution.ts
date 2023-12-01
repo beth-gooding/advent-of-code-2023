@@ -26,21 +26,22 @@ export const dayOneProblemOne = async () : Promise<number[]> => {
     let trueCalibrationValueSum: number = 0;
 
     for await (let calibrationLine of calibrationDocumentInterface) {
+
+        // PART 1
         let numbersInLine : string = calibrationLine.replace(/\D/g, "");
         calibrationValueSum += Number(numbersInLine.charAt(0) + numbersInLine.slice(-1));
-        console.log("original line: " + calibrationLine)
+
+        // PART 2
         let trueNumbersInLine : string = calibrationLine;
+
         for (let number in numbersMap) {
             let numberWord : RegExp = new RegExp(number, "g");
-            trueNumbersInLine = trueNumbersInLine.replace(numberWord, numbersMap[number]);
+            let replacementDigit: string = number.charAt(0) + numbersMap[number] + number.slice(-1);
+            trueNumbersInLine = trueNumbersInLine.replace(numberWord, replacementDigit);
         }
+        
         trueNumbersInLine = trueNumbersInLine.replace(/\D/g, "");
-
-        console.log("all numbers: " + trueNumbersInLine);
-        console.log("sum: " + trueNumbersInLine.charAt(0) + trueNumbersInLine.slice(-1))
         trueCalibrationValueSum += Number(trueNumbersInLine.charAt(0) + trueNumbersInLine.slice(-1));
-        console.log(trueCalibrationValueSum);
-
     }
 
     return [calibrationValueSum, trueCalibrationValueSum];
