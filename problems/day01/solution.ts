@@ -17,7 +17,7 @@ const numbersMap : NumbersMap = {
     "nine": "9"
 }
 
-export const dayOneProblemOne = async () : Promise<number[]> => {
+export const dayOneSolution = async () : Promise<number[]> => {
     let calibrationDocumentInterface : readline.Interface = readline.createInterface({
         input : f.createReadStream(inputFile)
     });
