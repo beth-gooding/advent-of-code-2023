@@ -19,6 +19,6 @@ await dayTwoSolution().then((answer) => {
 await dayThreeSolution().then((answer) => {
     console.log();
     console.log("Day three puzzle solutions:");
-    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The sum of all engine part numbers in the engine schematic is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });
