@@ -10,6 +10,13 @@ const checkIfSymbol = (character: string) : boolean => {
     return false;
 }
 
+const checkIfSymbolIsStar = (character: string) : boolean => {
+    if (character === "*") {
+        return true;
+    }
+    return false;
+}
+
 export const dayThreeSolution = async () : Promise<number[]> => {
     let engineSchematicInterface : readline.Interface = readline.createInterface({
         input : f.createReadStream(inputFile)
@@ -17,6 +24,10 @@ export const dayThreeSolution = async () : Promise<number[]> => {
 
     let engineSchematicMatrix : string[] = [];
     let sumEnginePartNumbers: number = 0;
+
+    let potentialGearArray : number[][] = [];
+    let sumGearRatios: number = 0;
+
     for await (let engineSchematicLine of engineSchematicInterface) {
         engineSchematicMatrix.push(engineSchematicLine);
     }
@@ -42,6 +53,9 @@ export const dayThreeSolution = async () : Promise<number[]> => {
                     for (let j : number = Math.max(startingCoordinates[1] - 1, 0); j <= Math.min(startingCoordinates[1] + potentialEngineNumberToAdd.length, row.length - 1); j++) {
                         if (checkIfSymbol(engineSchematicMatrix[i].charAt(j))) {
                             sumEnginePartNumbers += Number(potentialEngineNumberToAdd);
+                            if (checkIfSymbolIsStar(engineSchematicMatrix[i].charAt(j))) {
+                                potentialGearArray.push([i, j, Number(potentialEngineNumberToAdd)]);
+                            }
                             break;
                         }
                     }
@@ -49,9 +63,15 @@ export const dayThreeSolution = async () : Promise<number[]> => {
             }
         }
     }
+   
+    for (let i : number = 0; i < potentialGearArray.length; i++) {
+        let potentialGear = potentialGearArray[i];
+        for (let j : number = i + 1; j < potentialGearArray.length; j++) {
+            if ((potentialGear[0] === potentialGearArray[j][0]) && (potentialGear[1] === potentialGearArray[j][1])) {
+                sumGearRatios += (potentialGear[2] * potentialGearArray[j][2]);
+            }
+        }
+    }
 
-    // If something is a part number, write a function to check if the symbol is a star, and if it is store the coordinates of the star, or a count per coordinate to see if a coordinate appears more than once
-    // Would need to store co-ordinate and part number, so that part numbers can be multiplied together later
-
-    return [sumEnginePartNumbers, 2];
+    return [sumEnginePartNumbers, sumGearRatios];
 }
