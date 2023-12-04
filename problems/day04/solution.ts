@@ -9,8 +9,12 @@ export const dayFourSolution = async () : Promise<number[]> => {
     });
 
     let totalPointsWorth : number = 0;
-    for await (let scratchCard of scratchCardInterface) {
+    let totalNumberOfScratchCards: number = 0;
+    let numberOfEachScratchCard: number[] = [0];
+    let index : number = 0;
 
+    for await (let scratchCard of scratchCardInterface) {
+        
         // PART 1
         let amountOfWins: number = 0;
 
@@ -27,8 +31,23 @@ export const dayFourSolution = async () : Promise<number[]> => {
         if (amountOfWins > 0 ) {totalPointsWorth += Math.pow(2, amountOfWins - 1)};
 
         // PART 2
+        if (!numberOfEachScratchCard[index]) {
+            numberOfEachScratchCard[index] = 1
+        } else {
+            numberOfEachScratchCard[index] = numberOfEachScratchCard[index] + 1;
+        }
 
+        for (let i = index + 1; i <= index + amountOfWins; i++) {
+            if (!numberOfEachScratchCard[i]) {
+                numberOfEachScratchCard[i] = 0
+            }
+            numberOfEachScratchCard[i] = numberOfEachScratchCard[i] + numberOfEachScratchCard[index];
+        }
+
+        index++;
     }
 
-    return [totalPointsWorth, 2];
+    totalNumberOfScratchCards = numberOfEachScratchCard.reduce((a, b) =>  a + b, 0);
+
+    return [totalPointsWorth, totalNumberOfScratchCards];
 }
