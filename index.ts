@@ -27,6 +27,6 @@ await dayThreeSolution().then((answer) => {
 await dayFourSolution().then((answer) => {
     console.log();
     console.log("Day four puzzle solutions:");
-    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The total number of points on winning scratch cards is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });

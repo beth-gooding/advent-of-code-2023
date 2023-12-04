@@ -24,9 +24,7 @@ export const dayFourSolution = async () : Promise<number[]> => {
             }
         }
 
-        amountOfWins > 0 
-            ? totalPointsWorth += Math.pow(2, amountOfWins - 1) 
-            : null;
+        if (amountOfWins > 0 ) {totalPointsWorth += Math.pow(2, amountOfWins - 1)};
 
         // PART 2
 
