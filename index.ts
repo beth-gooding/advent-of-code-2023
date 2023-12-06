@@ -2,6 +2,7 @@ import { dayOneSolution } from './problems/day01/solution.ts';
 import { dayTwoSolution} from './problems/day02/solution.ts';
 import { dayThreeSolution} from './problems/day03/solution.ts';
 import { dayFourSolution } from './problems/day04/solution.ts';
+import { dayFiveSolution } from './problems/day05/solution.ts';
 
 await dayOneSolution().then((answer) => {
     console.log();
@@ -29,4 +30,11 @@ await dayFourSolution().then((answer) => {
     console.log("Day four puzzle solutions:");
     console.log(`The total number of points on winning scratch cards is ${answer[0]}.`);
     console.log(`The total number of scratch cards is ${answer[1]}.`);
+});
+
+await dayFiveSolution().then((answer) => {
+    console.log();
+    console.log("Day four puzzle solutions:");
+    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The answer to part 2 is ${answer[1]}.`);
 });
