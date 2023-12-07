@@ -3,7 +3,8 @@ import { dayTwoSolution} from './problems/day02/solution.ts';
 import { dayThreeSolution} from './problems/day03/solution.ts';
 import { dayFourSolution } from './problems/day04/solution.ts';
 import { dayFiveSolution } from './problems/day05/solution.ts';
-import { daySixSolution } from './problems/day06/solution.js';
+import { daySixSolution } from './problems/day06/solution.ts';
+import { daySevenSolution } from './problems/day07/solution.ts';
 
 await dayOneSolution().then((answer) => {
     console.log();
@@ -43,6 +44,13 @@ await dayFiveSolution().then((answer) => {
 await daySixSolution().then((answer) => {
     console.log();
     console.log("Day six puzzle solutions:");
+    console.log(`The product of the number of ways to beat the record for each race is ${answer[0]}.`);
+    console.log(`The real number of ways to beat the record in the race is ${answer[1]}.`);
+});
+
+await daySevenSolution().then((answer) => {
+    console.log();
+    console.log("Day seven puzzle solutions:");
     console.log(`The answer to part 1 is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });
