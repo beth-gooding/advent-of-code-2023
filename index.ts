@@ -51,6 +51,6 @@ await daySixSolution().then((answer) => {
 await daySevenSolution().then((answer) => {
     console.log();
     console.log("Day seven puzzle solutions:");
-    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The total winnings from my set of Camel Cards hands is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });

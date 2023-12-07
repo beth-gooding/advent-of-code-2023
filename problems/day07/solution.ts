@@ -1,7 +1,7 @@
 import * as f from 'fs';
 import * as readline from 'node:readline/promises';
 
-const inputFile = './problems/day07/exampleInput.txt';
+const inputFile = './problems/day07/input.txt';
 
 const handsRanking : StringKeyNumberValue = {
     "5": 7,
@@ -61,11 +61,10 @@ export const daySevenSolution = async () : Promise<number[]> => {
     hands.sort((a, b) => Number(a[2]) - Number(b[2]));
 
 
-    for (let handNumber : number = 0; handNumber < hands.length - 1; handNumber++) {
-        let currentHand : string[] = hands[handNumber]; 
-        
-        for (let nextHandNumber : number = 0; nextHandNumber < hands.length - handNumber - 1; nextHandNumber++) {
-            let nextHand : string[] = hands[nextHandNumber];
+    for (let handNumber : number = 0; handNumber < hands.length; handNumber++) {        
+        for (let currentHandNumber : number = 0; currentHandNumber < (hands.length - handNumber - 1); currentHandNumber++) {
+            let currentHand : string[] = hands[currentHandNumber]; 
+            let nextHand : string[] = hands[currentHandNumber + 1];
             if (currentHand[2] === nextHand[2]) {
                 for (let cardNumber : number = 0; cardNumber < currentHand[0].length; cardNumber++) {
                     let currentHandCurrentCardValue : number = cardsRanking[currentHand[0].charAt(cardNumber)];
@@ -75,19 +74,17 @@ export const daySevenSolution = async () : Promise<number[]> => {
                     } else if (currentHandCurrentCardValue === nextHandCurrentCardValue) {
                         continue;
                     } else {
-                        hands[handNumber] = nextHand;
-                        hands[nextHandNumber] = currentHand;
-                        handNumber++;
-                        break;
+                        hands[currentHandNumber] = nextHand;
+                        hands[currentHandNumber + 1] = currentHand;
                     }
                 }
             }
 
         }
     }
-    console.log(hands)
-    for (let i = hands.length - 1; i >= 0; i--) {
-        totalWinningsFromAllHands += (Number(hands[i][1]) * (hands.length - i));
+
+    for (let i = 0; i < hands.length; i++) {
+        totalWinningsFromAllHands += (Number(hands[i][1]) * (i + 1));
     }
     
     // PART 2
