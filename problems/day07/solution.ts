@@ -96,7 +96,11 @@ export const daySevenSolution = async () : Promise<number[]> => {
 
         // For Part 2
         let newRulesNumberOfCards : StringKeyNumberValue = {};
-        if (Object.keys(numberOfCards).includes("J")) {
+        if (hand[0] === "JJJJJ") {
+            hand.push("7");
+        }
+
+        if (Object.keys(numberOfCards).includes("J") && hand[0] !== "JJJJJ") {
             let bestUseOfJoker = Object.keys(numberOfCards).filter((s : string) => s !== "J").reduce((a, b) => numberOfCards[a] > numberOfCards[b] ? a : b)
             newRulesNumberOfCards = {...numberOfCards, [bestUseOfJoker]: (numberOfCards[bestUseOfJoker] + numberOfCards["J"])};
             delete newRulesNumberOfCards.J
@@ -135,27 +139,25 @@ export const daySevenSolution = async () : Promise<number[]> => {
     }
     
     // PART 2
-    // Need to know which key has been replaced
-    // Run bubblesort again, but compare based on hand[3] if it exists
     let totalWinningsIncludingJokers = 0;
     hands.sort((a, b) => compareIncludingJoker(a, b));
-    console.log(hands)
-    for (let handNumber : number = 0; handNumber < hands.length; handNumber++) {        
+    for (let handNumber : number = 0; handNumber < hands.length; handNumber++) {  
         for (let currentHandNumber : number = 0; currentHandNumber < (hands.length - handNumber - 1); currentHandNumber++) {
             let currentHand : string[] = hands[currentHandNumber]; 
             let nextHand : string[] = hands[currentHandNumber + 1];
-            if ((currentHand[3] && nextHand[3] && currentHand[3] === nextHand[3]) 
-                    || (currentHand[3] && currentHand[3] === nextHand[2])
-                    || (nextHand[3] && currentHand[2] === nextHand[3])
-                    || (!currentHand[3] && !nextHand[3] && currentHand[2] === nextHand[2])) {
+
+            if ((currentHand[3] && nextHand[3] && (currentHand[3] === nextHand[3])) 
+                    || (currentHand[3] && !nextHand[3] && (currentHand[3] === nextHand[2]))
+                    || (!currentHand[3] && nextHand[3] && (currentHand[2] === nextHand[3]))
+                    || (!currentHand[3] && !nextHand[3] && (currentHand[2] === nextHand[2]))) {
                 for (let cardNumber : number = 0; cardNumber < currentHand[0].length; cardNumber++) {
-                    let currentHandCurrentCardValue : number = cardsRanking[currentHand[0].charAt(cardNumber)];
-                    let nextHandCurrentCardValue : number = cardsRanking[nextHand[0].charAt(cardNumber)];
+                    let currentHandCurrentCardValue : number = cardsRankingWithJoker[currentHand[0].charAt(cardNumber)];
+                    let nextHandCurrentCardValue : number = cardsRankingWithJoker[nextHand[0].charAt(cardNumber)];
                     if (currentHandCurrentCardValue < nextHandCurrentCardValue) {
                         break;
                     } else if (currentHandCurrentCardValue === nextHandCurrentCardValue) {
                         continue;
-                    } else {
+                    } else if (currentHandCurrentCardValue > nextHandCurrentCardValue) {
                         hands[currentHandNumber] = nextHand;
                         hands[currentHandNumber + 1] = currentHand;
                     }
@@ -164,13 +166,10 @@ export const daySevenSolution = async () : Promise<number[]> => {
 
         }
     }
-
     for (let i = 0; i < hands.length; i++) {
         totalWinningsIncludingJokers += (Number(hands[i][1]) * (i + 1));
     }
     
-
-
     return [totalWinningsFromAllHands, totalWinningsIncludingJokers];
 }
 
