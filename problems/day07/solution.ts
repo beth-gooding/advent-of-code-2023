@@ -1,7 +1,7 @@
 import * as f from 'fs';
 import * as readline from 'node:readline/promises';
 
-const inputFile = './problems/day07/input.txt';
+const inputFile = './problems/day07/exampleInput.txt';
 
 const handsRanking : StringKeyNumberValue = {
     "5": 7,
@@ -18,6 +18,22 @@ const cardsRanking : StringKeyNumberValue = {
     "K": 13,
     "Q": 12,
     "J": 11,
+    "T": 10,
+    "9": 9,
+    "8": 8,
+    "7": 7,
+    "6": 6,
+    "5": 5,
+    "4": 4,
+    "3": 3,
+    "2": 2
+}
+
+const cardsRankingWithJoker : StringKeyNumberValue = {
+    "A": 14,
+    "K": 13,
+    "Q": 12,
+    "J": 1,
     "T": 10,
     "9": 9,
     "8": 8,
@@ -54,8 +70,22 @@ export const daySevenSolution = async () : Promise<number[]> => {
            numberOfCards = {...numberOfCards, [card]: numberOfCardType }
            handTypeIdentifier.push(numberOfCardType);
         }
+        console.log(handTypeIdentifier);
         let stringHandTypeIdentifier : string = handTypeIdentifier.sort((a, b) => b - a).toString().split(",").join("");
         hand.push(handsRanking[stringHandTypeIdentifier].toString());
+
+        // For Part 2
+        let newRulesNumberOfCards : StringKeyNumberValue = {};
+        if (Object.keys(numberOfCards).includes("J")) {
+            let bestUseOfJoker = Object.keys(numberOfCards).filter((s : string) => s !== "J").reduce((a, b) => numberOfCards[a] > numberOfCards[b] ? a : b)
+            hand.push(bestUseOfJoker);
+            hand.push(hand[0].replace(/J/g, bestUseOfJoker));
+            newRulesNumberOfCards = {...numberOfCards, [bestUseOfJoker]: (numberOfCards[bestUseOfJoker] + numberOfCards["J"])};
+            delete newRulesNumberOfCards.J
+            let newRulesStringHandTypeIdentifier : string = Object.values(newRulesNumberOfCards).sort((a, b) => b - a).toString().split(",").join("");
+            hand.push(String(handsRanking[newRulesStringHandTypeIdentifier]));
+        }
+        console.log(hand)
     }
 
     hands.sort((a, b) => Number(a[2]) - Number(b[2]));
@@ -88,6 +118,9 @@ export const daySevenSolution = async () : Promise<number[]> => {
     }
     
     // PART 2
+    // Need to know which key has been replaced
+    // Run bubblesort again, but compare based on hand[4] if it exists
+
 
     return [totalWinningsFromAllHands, 2];
 }
