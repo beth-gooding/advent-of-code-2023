@@ -5,6 +5,7 @@ import { dayFourSolution } from './problems/day04/solution.ts';
 import { dayFiveSolution } from './problems/day05/solution.ts';
 import { daySixSolution } from './problems/day06/solution.ts';
 import { daySevenSolution } from './problems/day07/solution.ts';
+import { dayEightSolution } from './problems/day08/solution.ts';
 
 await dayOneSolution().then((answer) => {
     console.log();
@@ -53,4 +54,11 @@ await daySevenSolution().then((answer) => {
     console.log("Day seven puzzle solutions:");
     console.log(`The total winnings from my set of Camel Cards hands is ${answer[0]}.`);
     console.log(`The total winnings from my set of Camel Cards including jokers is ${answer[1]}.`);
+});
+
+await dayEightSolution().then((answer) => {
+    console.log();
+    console.log("Day eight puzzle solutions:");
+    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The answer to part 2 is ${answer[1]}.`);
 });
