@@ -1,7 +1,7 @@
 import * as f from 'fs';
 import * as readline from 'node:readline/promises';
 
-const inputFile = './problems/day07/exampleInput.txt';
+const inputFile = './problems/day07/input.txt';
 
 const handsRanking : StringKeyNumberValue = {
     "5": 7,
@@ -45,6 +45,26 @@ const cardsRankingWithJoker : StringKeyNumberValue = {
     "2": 2
 }
 
+const compareIncludingJoker = (a: string[], b: string[]) : number => {
+
+    if (a[3] && b[3]) {
+        return Number(a[3]) - Number(b[3]);
+    }
+
+    if (a[3] && !b[3]) {
+        return Number(a[3]) - Number(b[2]);
+    }
+
+    if (!a[3] && b[3]) {
+        return Number(a[2]) - Number(b[3]);
+    }
+
+    if (!a[3] && !b[3]) {
+        return Number(a[2]) - Number(b[2]);
+    }
+    return 0;
+}
+
 export const daySevenSolution = async () : Promise<number[]> => {
     let camelCardsInterface : readline.Interface = readline.createInterface({
         input : f.createReadStream(inputFile)
@@ -70,7 +90,7 @@ export const daySevenSolution = async () : Promise<number[]> => {
            numberOfCards = {...numberOfCards, [card]: numberOfCardType }
            handTypeIdentifier.push(numberOfCardType);
         }
-        console.log(handTypeIdentifier);
+
         let stringHandTypeIdentifier : string = handTypeIdentifier.sort((a, b) => b - a).toString().split(",").join("");
         hand.push(handsRanking[stringHandTypeIdentifier].toString());
 
@@ -78,14 +98,11 @@ export const daySevenSolution = async () : Promise<number[]> => {
         let newRulesNumberOfCards : StringKeyNumberValue = {};
         if (Object.keys(numberOfCards).includes("J")) {
             let bestUseOfJoker = Object.keys(numberOfCards).filter((s : string) => s !== "J").reduce((a, b) => numberOfCards[a] > numberOfCards[b] ? a : b)
-            hand.push(bestUseOfJoker);
-            hand.push(hand[0].replace(/J/g, bestUseOfJoker));
             newRulesNumberOfCards = {...numberOfCards, [bestUseOfJoker]: (numberOfCards[bestUseOfJoker] + numberOfCards["J"])};
             delete newRulesNumberOfCards.J
             let newRulesStringHandTypeIdentifier : string = Object.values(newRulesNumberOfCards).sort((a, b) => b - a).toString().split(",").join("");
             hand.push(String(handsRanking[newRulesStringHandTypeIdentifier]));
         }
-        console.log(hand)
     }
 
     hands.sort((a, b) => Number(a[2]) - Number(b[2]));
@@ -119,10 +136,42 @@ export const daySevenSolution = async () : Promise<number[]> => {
     
     // PART 2
     // Need to know which key has been replaced
-    // Run bubblesort again, but compare based on hand[4] if it exists
+    // Run bubblesort again, but compare based on hand[3] if it exists
+    let totalWinningsIncludingJokers = 0;
+    hands.sort((a, b) => compareIncludingJoker(a, b));
+    console.log(hands)
+    for (let handNumber : number = 0; handNumber < hands.length; handNumber++) {        
+        for (let currentHandNumber : number = 0; currentHandNumber < (hands.length - handNumber - 1); currentHandNumber++) {
+            let currentHand : string[] = hands[currentHandNumber]; 
+            let nextHand : string[] = hands[currentHandNumber + 1];
+            if ((currentHand[3] && nextHand[3] && currentHand[3] === nextHand[3]) 
+                    || (currentHand[3] && currentHand[3] === nextHand[2])
+                    || (nextHand[3] && currentHand[2] === nextHand[3])
+                    || (!currentHand[3] && !nextHand[3] && currentHand[2] === nextHand[2])) {
+                for (let cardNumber : number = 0; cardNumber < currentHand[0].length; cardNumber++) {
+                    let currentHandCurrentCardValue : number = cardsRanking[currentHand[0].charAt(cardNumber)];
+                    let nextHandCurrentCardValue : number = cardsRanking[nextHand[0].charAt(cardNumber)];
+                    if (currentHandCurrentCardValue < nextHandCurrentCardValue) {
+                        break;
+                    } else if (currentHandCurrentCardValue === nextHandCurrentCardValue) {
+                        continue;
+                    } else {
+                        hands[currentHandNumber] = nextHand;
+                        hands[currentHandNumber + 1] = currentHand;
+                    }
+                }
+            }
+
+        }
+    }
+
+    for (let i = 0; i < hands.length; i++) {
+        totalWinningsIncludingJokers += (Number(hands[i][1]) * (i + 1));
+    }
+    
 
 
-    return [totalWinningsFromAllHands, 2];
+    return [totalWinningsFromAllHands, totalWinningsIncludingJokers];
 }
 
 type StringKeyNumberValue = {[key: string] : number}
