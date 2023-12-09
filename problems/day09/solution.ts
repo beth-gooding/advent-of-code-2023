@@ -17,7 +17,8 @@ export const dayNineSolution = async () : Promise<number[]> => {
         input : f.createReadStream(inputFile)
     });
 
-    let sumOfExtrapolatedValues : number = 0;
+    let sumOfForwardExtrapolatedValues : number = 0;
+    let sumOfBackwardExtrapolatedValues : number = 0;
     for await (let dataSequence of oasisDataInterface) {
 
         // PART 1
@@ -37,10 +38,16 @@ export const dayNineSolution = async () : Promise<number[]> => {
             dataArray[index - 1].push(dataArray[index - 1].slice(-1)[0] + dataArray[index].slice(-1)[0])
         }
 
-        sumOfExtrapolatedValues += dataArray[0].slice(-1)[0];
+        sumOfForwardExtrapolatedValues += dataArray[0].slice(-1)[0];
+
         // PART 2
 
+        dataArray[lastRound].unshift(0);
+        for (let backExtrapolationIndex : number = lastRound; backExtrapolationIndex > 0; backExtrapolationIndex--) {
+            dataArray[backExtrapolationIndex - 1].unshift(dataArray[backExtrapolationIndex - 1][0] - dataArray[backExtrapolationIndex][0])
+        }
+        sumOfBackwardExtrapolatedValues += dataArray[0][0];
     }
 
-    return [sumOfExtrapolatedValues, 2];
+    return [sumOfForwardExtrapolatedValues, sumOfBackwardExtrapolatedValues];
 }

@@ -67,6 +67,6 @@ await dayEightSolution().then((answer) => {
 await dayNineSolution().then((answer) => {
     console.log();
     console.log("Day nine puzzle solutions:");
-    console.log(`The total sum of extrapolated OASIS values is ${answer[0]}.`);
-    console.log(`The answer to part 2 is ${answer[1]}.`);
+    console.log(`The total sum of forward extrapolated OASIS values is ${answer[0]}.`);
+    console.log(`The total sum of backward extrapolated OASIS values is ${answer[1]}.`);
 });
