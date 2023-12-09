@@ -1,7 +1,7 @@
 import * as f from 'fs';
 import * as readline from 'node:readline/promises';
 
-const inputFile = './problems/day05/exampleInput.txt';
+const inputFile = './problems/day05/input.txt';
 
 const mapStages : string[] = [
     "seed-to-soil map:", 
@@ -59,7 +59,9 @@ export const dayFiveSolution = async () : Promise<number[]> => {
         let currentStageMapPieces = mapPiecesCreator(almanacArray, mapStages[stageNumber], mapStages[stageNumber + 1]);
         console.log("log 1: ", currentStageMapPieces)
         let currentStageMap = {};
+        // Because the numbers are sooooo big, this is very inefficient - will need to think of a different strategy
         for (let currentStageRow : number = 0; currentStageRow < currentStageMapPieces.length; currentStageRow++) {
+            console.log("log 1.5: ", currentStageMap)
             let rowToConvert : number[] = currentStageMapPieces[currentStageRow];
             let newMapInformation = rangeCalculator(rowToConvert[0], rowToConvert[1], rowToConvert[2]);
             currentStageMap = {...currentStageMap, ...newMapInformation};
