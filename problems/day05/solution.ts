@@ -28,17 +28,6 @@ const mapPiecesCreator = (almanac: string[], mapSection: string, nextMapSection:
     return mapPieces;
 }
 
-const rangeCalculator = (destinationStartPoint : number, sourceStartPoint : number, rangeLength: number) : {} => {
-    let newMapPart = {};
-    let destinationMapValue : number = destinationStartPoint;
-    for (let i : number = sourceStartPoint; i < (sourceStartPoint + rangeLength); i++) {
-        newMapPart = {...newMapPart, [i]: destinationMapValue }
-        destinationMapValue++;
-    }
-
-    return newMapPart;
-}
-
 export const dayFiveSolution = async () : Promise<number[]> => {
     let almanacInterface : readline.Interface = readline.createInterface({
         input : f.createReadStream(inputFile)
@@ -57,30 +46,41 @@ export const dayFiveSolution = async () : Promise<number[]> => {
 
     for (let stageNumber : number = 0; stageNumber < mapStages.length - 1; stageNumber++) {
         let currentStageMapPieces = mapPiecesCreator(almanacArray, mapStages[stageNumber], mapStages[stageNumber + 1]);
-        console.log("log 1: ", currentStageMapPieces)
-        let currentStageMap = {};
-        // Because the numbers are sooooo big, this is very inefficient - will need to think of a different strategy
+        let currentStageMap = [];
+
         for (let currentStageRow : number = 0; currentStageRow < currentStageMapPieces.length; currentStageRow++) {
-            console.log("log 1.5: ", currentStageMap)
             let rowToConvert : number[] = currentStageMapPieces[currentStageRow];
-            let newMapInformation = rangeCalculator(rowToConvert[0], rowToConvert[1], rowToConvert[2]);
-            currentStageMap = {...currentStageMap, ...newMapInformation};
+            currentStageMap.push(rowToConvert);
         }
-        console.log("log 2: ", currentStageMap)
+        currentStageMap.sort((a, b) => a[1] - b[1])
 
         let currentStageOutput : number[] = [];
         for (let item of stageOutputs[stageNumber]) {
-            if (!currentStageMap[item]) {
+            if (item < currentStageMap[0][1] 
+                || item >= (currentStageMap[currentStageMap.length - 1][1] + currentStageMap[currentStageMap.length - 1][2])
+            ) {
                 currentStageOutput.push(item);
                 continue;
             }
-            currentStageOutput.push(currentStageMap[item]);
-            console.log("log 3: ", currentStageOutput);
+
+            for (let rangeIdentifierIndex : number = 0; rangeIdentifierIndex < currentStageMap.length; rangeIdentifierIndex++) {
+                if (item >= currentStageMap[rangeIdentifierIndex][1] 
+                    && item < (currentStageMap[rangeIdentifierIndex][1] + currentStageMap[rangeIdentifierIndex][2])
+                ) {
+                    currentStageOutput.push(currentStageMap[rangeIdentifierIndex][0] + (item - currentStageMap[rangeIdentifierIndex][1]));
+                    break;
+                }
+
+                if (rangeIdentifierIndex === currentStageMap.length) {
+                    currentStageOutput.push(item);
+                }
+            }
+            
         }
         stageOutputs.push(currentStageOutput);
-        lowestLocationNumber = Math.min(...stageOutputs.slice(-1)[0]);
-        console.log("log 4: ", stageOutputs)
     }
+    lowestLocationNumber = Math.min(...stageOutputs.slice(-1)[0]);
+
     // PART 2
 
     return [lowestLocationNumber, 2];
