@@ -36,13 +36,6 @@ await dayFourSolution().then((answer) => {
     console.log(`The total number of scratch cards is ${answer[1]}.`);
 });
 
-await dayFiveSolution().then((answer) => {
-    console.log();
-    console.log("Day five puzzle solutions:");
-    console.log(`The answer to part 1 is ${answer[0]}.`);
-    console.log(`The answer to part 2 is ${answer[1]}.`);
-});
-
 await daySixSolution().then((answer) => {
     console.log();
     console.log("Day six puzzle solutions:");
@@ -69,4 +62,11 @@ await dayNineSolution().then((answer) => {
     console.log("Day nine puzzle solutions:");
     console.log(`The total sum of forward extrapolated OASIS values is ${answer[0]}.`);
     console.log(`The total sum of backward extrapolated OASIS values is ${answer[1]}.`);
+});
+
+await dayFiveSolution().then((answer) => {
+    console.log();
+    console.log("Day five puzzle solutions:");
+    console.log(`The lowest location number for an initial seed is ${answer[0]}.`);
+    console.log(`The answer to part 2 is ${answer[1]}.`);
 });
