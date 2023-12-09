@@ -42,8 +42,6 @@ export const dayEightSolution = async () : Promise<number[]> => {
     let ghostModeMoveNumber : number[] = Array(currentNodes.length).fill(0);
     let numberOfNodes : number = currentNodes.length;
 
-    console.log(currentNodes)
-
         for (let nodeNumber : number = 0; nodeNumber < numberOfNodes; nodeNumber++ ) {
             while(currentNodes[nodeNumber][2] !== "Z") {
             currentNodes[nodeNumber] = findNextNode(currentNodes[nodeNumber], movesPattern[ghostModeMoveNumber[nodeNumber] % movesPattern.length]);
