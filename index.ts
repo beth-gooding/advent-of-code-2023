@@ -6,6 +6,7 @@ import { dayFiveSolution } from './problems/day05/solution.ts';
 import { daySixSolution } from './problems/day06/solution.ts';
 import { daySevenSolution } from './problems/day07/solution.ts';
 import { dayEightSolution } from './problems/day08/solution.ts';
+import { dayNineSolution } from './problems/day09/solution.ts';
 
 await dayOneSolution().then((answer) => {
     console.log();
@@ -61,4 +62,11 @@ await dayEightSolution().then((answer) => {
     console.log("Day eight puzzle solutions:");
     console.log(`The number of moves needed to reach node ZZZ is ${answer[0]}.`);
     console.log(`The number of moves needed in ghost mode to reach all end nodes is ${answer[1]}.`);
+});
+
+await dayNineSolution().then((answer) => {
+    console.log();
+    console.log("Day nine puzzle solutions:");
+    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The answer to part 2 is ${answer[1]}.`);
 });
