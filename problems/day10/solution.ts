@@ -81,8 +81,6 @@ export const dayTenSolution = async () : Promise<number[]> => {
         }
     }
 
-    console.log("Should say S: ", pipeMap[sLocation[0]][sLocation[1]]);
-
     // PART 1
     // I think S has to connect to the North and the East, because South and West pipes miss it (have a corner) - 
     // code below matches that hypothesis
@@ -100,15 +98,6 @@ export const dayTenSolution = async () : Promise<number[]> => {
         [sLocation[0], sLocation[1] - 1]
     ];
 
-    console.log("Should say N: ", nextDirection("N", pipeMap[sLocation[0] - 1][sLocation[1]]));
-    console.log("Should say S: ", nextDirection("E", pipeMap[sLocation[0]][sLocation[1] + 1]));
-
-    // So - have a function to check which pipes can join to current pipe, and one to calculate the direction of the next pipe.
-    // Now just need a smart way to step through the algorithm, and record how many steps have been taken
-    // Probably shouldn't assume the loop has an even number of steps - so both directions might not hit the same index at the same time.
-    // record step number and index - when same index is in both lists, stop, because you've covered the whole loop.
-    // Then take the highest index of the location of that in both arrays
-
     let directionOneSteps : number[][] = [sLocation];
     let directionOneCompass: string[] = [];
 
@@ -121,9 +110,11 @@ export const dayTenSolution = async () : Promise<number[]> => {
             if (directionOneSteps.length === 1) { 
                 directionOneSteps.push(potentialNextCoordinates[i]);
                 directionOneCompass.push(potentialStartPoints[i][0]);
+                directionOneCompass.push(nextDirection(potentialStartPoints[i][0], pipeMap[potentialNextCoordinates[i][0]][potentialNextCoordinates[i][1]]));
             } else {
                 directionTwoSteps.push(potentialNextCoordinates[i]);
                 directionTwoCompass.push(potentialStartPoints[i][0]);
+                directionTwoCompass.push(nextDirection(potentialStartPoints[i][0], pipeMap[potentialNextCoordinates[i][0]][potentialNextCoordinates[i][1]]));
             }
         }
     }
@@ -145,7 +136,7 @@ export const dayTenSolution = async () : Promise<number[]> => {
             break;
         }
     }
-    console.log(directionOneSteps.slice(-1), directionTwoSteps)
+
     let numberOfSteps = directionTwoSteps.length - 1;
     // PART 2
 

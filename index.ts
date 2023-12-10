@@ -75,6 +75,6 @@ await dayFiveSolution().then((answer) => {
 await dayTenSolution().then((answer) => {
     console.log();
     console.log("Day ten puzzle solutions:");
-    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The number of steps to get to the furthest piece of pipe is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });
