@@ -43,7 +43,7 @@ export const dayFiveSolution = async () : Promise<number[]> => {
 
     // PART 1
     let stageOutputs : number[][] = [almanacArray[0].split(" ").splice(1).map((a : string) => Number(a))];
-
+    console.log(stageOutputs);
     for (let stageNumber : number = 0; stageNumber < mapStages.length - 1; stageNumber++) {
         let currentStageMapPieces = mapPiecesCreator(almanacArray, mapStages[stageNumber], mapStages[stageNumber + 1]);
         let currentStageMap = [];
@@ -82,6 +82,7 @@ export const dayFiveSolution = async () : Promise<number[]> => {
     lowestLocationNumber = Math.min(...stageOutputs.slice(-1)[0]);
 
     // PART 2
+    let trueLowestLocationNumber = 0;
 
-    return [lowestLocationNumber, 2];
+    return [lowestLocationNumber, trueLowestLocationNumber];
 }
