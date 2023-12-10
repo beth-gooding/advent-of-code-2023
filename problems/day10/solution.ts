@@ -139,6 +139,63 @@ export const dayTenSolution = async () : Promise<number[]> => {
 
     let numberOfSteps = directionTwoSteps.length - 1;
     // PART 2
+    let fullLoopCoordinates : number[][] = [...directionOneSteps.slice(0, -1), ...directionTwoSteps.reverse()];
+    let fullLoopDirections : string[] = [...directionOneCompass.slice(0, -1), ...directionTwoCompass.reverse()];
+    console.log(fullLoopDirections)
 
-    return [numberOfSteps, 2];
+    // create an array to store flood fill values in
+    let partTwoMap : string[][] = [];
+    for (let i : number = 0; i < pipeMap.length; i++) {
+        partTwoMap.push(Array(pipeMap[0].length));
+    }
+
+    // fill in where the pipe is
+    for (let i :  number = 0; i < fullLoopCoordinates.length; i++) {
+        // this doesn't account for corner pieces having a vertical bit as well as a horizontal bit, need to fix
+        if (["E", "W"].includes(fullLoopDirections[i])) {
+            partTwoMap[fullLoopCoordinates[i][0]][fullLoopCoordinates[i][1]] = "H";
+        } else {
+            partTwoMap[fullLoopCoordinates[i][0]][fullLoopCoordinates[i][1]] = "V";
+        }
+    }
+
+    const findInsidePointsAlgorithm = (coordinate : number[], numberOfCrossings : number) : void => {
+        let pointOfInterest = partTwoMap[coordinate[0]][coordinate[1]]
+        if (["I", "O", "V", "H"].includes(pointOfInterest)) {
+            return;
+        }
+
+        if (numberOfCrossings % 2 === 1) {
+            partTwoMap[coordinate[0]][coordinate[1]] = "I"
+            return;
+        } else {
+            partTwoMap[coordinate[0]][coordinate[1]] = "O"
+            return;
+        }
+
+    }
+
+    let numberOfInsideTiles :  number = 0;
+    for (let i : number = 1; i < pipeMap.length - 1; i++) {
+        let numberOfCrossings = 0;
+
+        // Fill in the outside tiles on the right edge
+        for (let startRight : number = pipeMap[i].length - 1; startRight >= 0; startRight--) {
+            if (!["V", "H"].includes(partTwoMap[i][startRight])) {
+                partTwoMap[i][startRight] = "O"
+            } else {
+                break;
+            }
+        }
+
+        // calculate the rest of the inside tiles
+        for (let j : number = 0; j < pipeMap[i].length; j++) {
+            if (partTwoMap[i][j] === "V") {numberOfCrossings++;}
+            findInsidePointsAlgorithm([i,j], numberOfCrossings);
+        }
+        numberOfInsideTiles += partTwoMap[i].filter((s : string) => s === "I").length;
+    }
+    console.log(partTwoMap);
+
+    return [numberOfSteps, numberOfInsideTiles];
 }
