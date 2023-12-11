@@ -8,6 +8,7 @@ import { daySevenSolution } from './problems/day07/solution.ts';
 import { dayEightSolution } from './problems/day08/solution.ts';
 import { dayNineSolution } from './problems/day09/solution.ts';
 import { dayTenSolution } from './problems/day10/solution.ts';
+import { dayElevenSolution } from './problems/day11/solution.ts';
 
 await dayOneSolution().then((answer) => {
     console.log();
@@ -76,5 +77,12 @@ await dayTenSolution().then((answer) => {
     console.log();
     console.log("Day ten puzzle solutions:");
     console.log(`The number of steps to get to the furthest piece of pipe is ${answer[0]}.`);
+    console.log(`The answer to part 2 is ${answer[1]}.`);
+});
+
+await dayElevenSolution().then((answer) => {
+    console.log();
+    console.log("Day eleven puzzle solutions:");
+    console.log(`The answer to part 1 is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });
