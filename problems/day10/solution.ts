@@ -191,6 +191,7 @@ export const dayTenSolution = async () : Promise<number[]> => {
         // calculate the rest of the inside tiles
         for (let j : number = 0; j < pipeMap[i].length; j++) {
             if (partTwoMap[i][j] === "V") {numberOfCrossings++;}
+            if (i === 3) {console.log(j, numberOfCrossings)}
             findInsidePointsAlgorithm([i,j], numberOfCrossings);
         }
         numberOfInsideTiles += partTwoMap[i].filter((s : string) => s === "I").length;

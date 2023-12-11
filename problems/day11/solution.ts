@@ -9,14 +9,18 @@ export const dayElevenSolution = async () : Promise<number[]> => {
     });
 
     let universeMap : string[] = [];
+    let rowIndex : number = 0;
+    let indicesToAddNewRowAt : number[] = [];
     for await (let line of universeInterface) {
         universeMap.push(line);
 
         // if this line doesn't have a galaxy, push it again
         if (!line.includes("#")) {
-            universeMap.push(line);
+            // universeMap.push(line);
+            indicesToAddNewRowAt.push(rowIndex + indicesToAddNewRowAt.length);
         }
 
+        rowIndex++;
     }
 
     let originalNumberOfColumns : number = universeMap[0].length;
@@ -34,13 +38,6 @@ export const dayElevenSolution = async () : Promise<number[]> => {
         }
     }
 
-    // if the column is blank, insert another . into each row using indicesToAddColumnAt
-    for (let index of indicesToAddNewColumnsAt) {
-        for (let k : number = 0; k < universeMap.length; k++) {
-            universeMap[k] = universeMap[k].substring(0, index) + "." + universeMap[k].substring(index);
-        }
-    }
-
     // At this point, we have expanded the map
     // Now, need to find the points where the galaxies are
     let galaxyCoordinates : number[][] = [];
@@ -48,10 +45,14 @@ export const dayElevenSolution = async () : Promise<number[]> => {
     for (let i : number = 0; i < universeMap.length; i++) {
         for (let j : number = 0; j < universeMap[i].length; j++) {
             if (universeMap[i][j] === "#") {
-                galaxyCoordinates.push([i, j])
+                // Need to do a shift by minus the index, because we applied a shift above to set the index for later
+                let numberOfRowExpansions : number = indicesToAddNewRowAt.filter((a : number) => (a - indicesToAddNewRowAt.indexOf(a)) < i).length;
+                let numberOfColExpansions : number = indicesToAddNewColumnsAt.filter((a : number) => (a - indicesToAddNewColumnsAt.indexOf(a)) < j).length;
+                galaxyCoordinates.push([i + numberOfRowExpansions, j + numberOfColExpansions])
             }
         }
     }
+
 
     // Now find the shortest distance between each pair of galaxies
     let totalDistanceBetweenEachPair : number = 0;
