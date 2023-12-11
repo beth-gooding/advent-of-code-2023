@@ -38,9 +38,11 @@ export const dayElevenSolution = async () : Promise<number[]> => {
         }
     }
 
-    // At this point, we have expanded the map
+    // At this point, we have found the map and know where to expand
     // Now, need to find the points where the galaxies are
     let galaxyCoordinates : number[][] = [];
+    // For use in part 2
+    let realGalaxyCoordinates : number[][] = [];
 
     for (let i : number = 0; i < universeMap.length; i++) {
         for (let j : number = 0; j < universeMap[i].length; j++) {
@@ -48,7 +50,9 @@ export const dayElevenSolution = async () : Promise<number[]> => {
                 // Need to do a shift by minus the index, because we applied a shift above to set the index for later
                 let numberOfRowExpansions : number = indicesToAddNewRowAt.filter((a : number) => (a - indicesToAddNewRowAt.indexOf(a)) < i).length;
                 let numberOfColExpansions : number = indicesToAddNewColumnsAt.filter((a : number) => (a - indicesToAddNewColumnsAt.indexOf(a)) < j).length;
-                galaxyCoordinates.push([i + numberOfRowExpansions, j + numberOfColExpansions])
+                galaxyCoordinates.push([i + numberOfRowExpansions, j + numberOfColExpansions]);
+                // for use in part 2 - for each expansion, add 999999 extra rows / columns
+                realGalaxyCoordinates.push([i + (numberOfRowExpansions*999999), j + (numberOfColExpansions * 999999)])
             }
         }
     }
@@ -57,7 +61,7 @@ export const dayElevenSolution = async () : Promise<number[]> => {
     // Now find the shortest distance between each pair of galaxies
     let totalDistanceBetweenEachPair : number = 0;
     for (let i : number = 0; i < galaxyCoordinates.length; i++) {
-        for (let j : number = i + 1; j <galaxyCoordinates.length; j++) {
+        for (let j : number = i + 1; j < galaxyCoordinates.length; j++) {
             // calculate the difference in horizontal and vertical position
             let horizontalDistance : number = Math.abs(galaxyCoordinates[i][1] - galaxyCoordinates[j][1]);
             let verticalDistance : number = Math.abs(galaxyCoordinates[i][0] - galaxyCoordinates[j][0]);
@@ -67,5 +71,15 @@ export const dayElevenSolution = async () : Promise<number[]> => {
 
     // PART 2
 
-    return [totalDistanceBetweenEachPair, 2];
+    let realTotalDistanceBetweenEachPair : number = 0;
+    for (let i : number = 0; i < realGalaxyCoordinates.length; i++) {
+        for (let j : number = i + 1; j < realGalaxyCoordinates.length; j++) {
+            // calculate the difference in horizontal and vertical position
+            let horizontalDistance : number = Math.abs(realGalaxyCoordinates[i][1] - realGalaxyCoordinates[j][1]);
+            let verticalDistance : number = Math.abs(realGalaxyCoordinates[i][0] - realGalaxyCoordinates[j][0]);
+            realTotalDistanceBetweenEachPair += (horizontalDistance + verticalDistance);
+        }
+    }
+
+    return [totalDistanceBetweenEachPair, realTotalDistanceBetweenEachPair];
 }

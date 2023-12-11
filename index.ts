@@ -83,6 +83,6 @@ await dayTenSolution().then((answer) => {
 await dayElevenSolution().then((answer) => {
     console.log();
     console.log("Day eleven puzzle solutions:");
-    console.log(`The shortest distance between all pairs of galaxies is ${answer[0]}.`);
-    console.log(`The answer to part 2 is ${answer[1]}.`);
+    console.log(`The total of shortest distances between all pairs of galaxies is ${answer[0]}.`);
+    console.log(`The real total shortest distances between all pairs of galaxies is ${answer[1]}.`);
 });
