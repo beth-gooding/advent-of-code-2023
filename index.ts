@@ -9,6 +9,7 @@ import { dayEightSolution } from './problems/day08/solution.ts';
 import { dayNineSolution } from './problems/day09/solution.ts';
 import { dayTenSolution } from './problems/day10/solution.ts';
 import { dayElevenSolution } from './problems/day11/solution.ts';
+import { dayTwelveSolution } from './problems/day12/solution.ts';
 
 await dayOneSolution().then((answer) => {
     console.log();
@@ -85,4 +86,11 @@ await dayElevenSolution().then((answer) => {
     console.log("Day eleven puzzle solutions:");
     console.log(`The total of shortest distances between all pairs of galaxies is ${answer[0]}.`);
     console.log(`The real total shortest distances between all pairs of galaxies is ${answer[1]}.`);
+});
+
+await dayTwelveSolution().then((answer) => {
+    console.log();
+    console.log("Day twelve puzzle solutions:");
+    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The answer to part 2 is ${answer[1]}.`);
 });
