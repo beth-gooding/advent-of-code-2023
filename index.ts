@@ -11,6 +11,7 @@ import { dayTenSolution } from './problems/day10/solution.ts';
 import { dayElevenSolution } from './problems/day11/solution.ts';
 import { dayTwelveSolution } from './problems/day12/solution.ts';
 import { dayThirteenSolution } from './problems/day13/solution.ts';
+import { dayFourteenSolution } from './problems/day14/solution.ts';
 
 await dayOneSolution().then((answer) => {
     console.log();
@@ -99,6 +100,13 @@ await dayTwelveSolution().then((answer) => {
 await dayThirteenSolution().then((answer) => {
     console.log();
     console.log("Day thirteen puzzle solutions:");
+    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The answer to part 2 is ${answer[1]}.`);
+});
+
+await dayFourteenSolution().then((answer) => {
+    console.log();
+    console.log("Day fourteen puzzle solutions:");
     console.log(`The answer to part 1 is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });
