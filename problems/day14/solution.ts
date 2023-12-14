@@ -3,19 +3,8 @@ import * as readline from 'node:readline/promises';
 
 const inputFile = './problems/day14/input.txt';
 
-export const dayFourteenSolution = async () : Promise<number[]> => {
-    let rockMapInterface : readline.Interface = readline.createInterface({
-        input : f.createReadStream(inputFile)
-    });
-
-    let rockMapArray :  string[] = [];
-    for await (let line of rockMapInterface) {
-        rockMapArray.push(line);
-    }
-
-    // PART 1
-    let totalLoadOnNorthBeams : number = 0;
-
+const northTilt = (rockMapArray: string[]) : number => {
+    let totalLoad = 0;
     for (let columnIndex : number = 0; columnIndex < rockMapArray[0].length; columnIndex++) {
         let closestCubeRock : number = -1;
         let numberOfRocksTracked : number = 0;
@@ -38,13 +27,105 @@ export const dayFourteenSolution = async () : Promise<number[]> => {
             if (rockMapArray[rowIndex][columnIndex] === "O") {
                 // the titledRowIndex will be equal to max(0, #.location) + number of O rocks above it
                 let tiltedRowIndex : number = (Math.max(0, closestCubeRock) + numberOfRocksTracked);
-                totalLoadOnNorthBeams += (rockMapArray.length - tiltedRowIndex);
+                totalLoad += (rockMapArray.length - tiltedRowIndex);
                 numberOfRocksTracked += 1;
                 continue;
             }
         }
     }
-    // PART 2
+    return totalLoad;
+}
 
-    return [totalLoadOnNorthBeams, 2];
+const westTilt = (rockMapArray: string[]) => {
+
+    for (let rowIndex : number = 0; rowIndex < rockMapArray.length; rowIndex++) {
+        let closestCubeRock : number = -1;
+        let numberOfRocksTracked : number = 0;
+        for (let columnIndex : number = 0; columnIndex < rockMapArray[rowIndex].length; columnIndex++) {
+            if (rockMapArray[rowIndex][columnIndex] === ".") {
+                continue;
+            } 
+
+            if (rockMapArray[rowIndex][columnIndex] === "#") {
+                closestCubeRock = columnIndex;
+                numberOfRocksTracked = 1;
+                continue;
+            }
+
+            if (rockMapArray[rowIndex][columnIndex] === "O") {
+                let tiltedColumnIndex : number = (Math.max(0, closestCubeRock) + numberOfRocksTracked);
+                numberOfRocksTracked += 1;
+                continue;
+            }
+        }
+    }
+
+};
+
+const southTilt = (rockMapArray : string[]) => {
+    for (let columnIndex : number = rockMapArray[0].length - 1; columnIndex >= 0; columnIndex--) {
+        let closestCubeRock : number = -1;
+        let numberOfRocksTracked : number = 0;
+        for (let rowIndex : number = rockMapArray.length - 1; rowIndex >= 0; rowIndex--) {
+            if (rockMapArray[rowIndex][columnIndex] === ".") {
+                continue;
+            } 
+
+            if (rockMapArray[rowIndex][columnIndex] === "#") {
+                closestCubeRock = columnIndex;
+                numberOfRocksTracked = 1;
+                continue;
+            }
+
+            if (rockMapArray[rowIndex][columnIndex] === "O") {
+                let tiltedRowIndex : number = (Math.max(0, closestCubeRock) + numberOfRocksTracked);
+                numberOfRocksTracked += 1;
+                continue;
+            }
+        }
+    }
+};
+
+const eastTilt = (rockMapArray : string[]) => {
+    for (let rowIndex : number = rockMapArray.length - 1; rowIndex >= 0; rowIndex--) {
+        let closestCubeRock : number = -1;
+        let numberOfRocksTracked : number = 0;
+        for (let columnIndex : number = rockMapArray[0].length - 1; columnIndex >= 0; columnIndex--) {
+            if (rockMapArray[rowIndex][columnIndex] === ".") {
+                continue;
+            } 
+
+            if (rockMapArray[rowIndex][columnIndex] === "#") {
+                closestCubeRock = columnIndex;
+                numberOfRocksTracked = 1;
+                continue;
+            }
+
+            if (rockMapArray[rowIndex][columnIndex] === "O") {
+                let tiltedColumnIndex : number = (Math.max(0, closestCubeRock) + numberOfRocksTracked);
+                numberOfRocksTracked += 1;
+                continue;
+            }
+        }
+    }
+};
+
+export const dayFourteenSolution = async () : Promise<number[]> => {
+    let rockMapInterface : readline.Interface = readline.createInterface({
+        input : f.createReadStream(inputFile)
+    });
+
+    let rockMapArray :  string[] = [];
+    for await (let line of rockMapInterface) {
+        rockMapArray.push(line);
+    }
+
+    // PART 1
+    let totalLoadOnNorthBeams : number = northTilt(rockMapArray);
+
+    // PART 2
+        let totalLoadAfterCycles : number = 0;
+
+        // totalLoadAfterCycles = calculateLoad();
+    return [totalLoadOnNorthBeams, totalLoadAfterCycles];
 }
