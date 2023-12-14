@@ -107,6 +107,6 @@ await dayThirteenSolution().then((answer) => {
 await dayFourteenSolution().then((answer) => {
     console.log();
     console.log("Day fourteen puzzle solutions:");
-    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The total load on the north beams is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });
