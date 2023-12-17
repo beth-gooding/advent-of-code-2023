@@ -37,8 +37,8 @@ export const dayFifteenSolution = async () : Promise<number[]> => {
         let boxLabelAndLens : string = input.split(/-|=/).join("");
 
         if (input.includes("-")) {
-            if (boxHashMap[boxNumber]?.filter((s: string) => s.includes(boxLabelAndLens.replace(/[0-9]/, ""))).length > 0) {
-                let actualEntry = boxHashMap[boxNumber].filter((s: string) => s.includes(boxLabelAndLens.replace(/[0-9]/, "")))[0]
+            if (boxHashMap[boxNumber]?.filter((s: string) => s.match(boxLabelAndLens.replace(/[0-9]/, ""))).length > 0) {
+                let actualEntry = boxHashMap[boxNumber].filter((s: string) => s.match(boxLabelAndLens.replace(/[0-9]/, "")))[0]
                 let indexOfLabel : number = boxHashMap[boxNumber].indexOf(actualEntry);
                 boxHashMap[boxNumber] = [...boxHashMap[boxNumber].slice(0, indexOfLabel), ...boxHashMap[boxNumber].slice(indexOfLabel + 1)];
                 continue;
@@ -46,10 +46,10 @@ export const dayFifteenSolution = async () : Promise<number[]> => {
         }
 
         if (input.includes("=")) {
-            if (boxHashMap[boxNumber]?.filter((s: string) => s.includes(boxLabelAndLens.replace(/[0-9]/, ""))).length > 0) {
-                let actualEntry = boxHashMap[boxNumber].filter((s: string) => s.includes(boxLabelAndLens.replace(/[0-9]/, "")))[0]
+            if (boxHashMap[boxNumber]?.filter((s: string) => s.match(boxLabelAndLens.replace(/[0-9]/, ""))).length > 0) {
+                let actualEntry = boxHashMap[boxNumber].filter((s: string) => s.match(boxLabelAndLens.replace(/[0-9]/, "")))[0];
                 let indexOfLabel : number = boxHashMap[boxNumber].indexOf(actualEntry);
-                boxHashMap[boxNumber] = [...boxHashMap[boxNumber].slice(0, indexOfLabel), boxLabelAndLens, ...boxHashMap[boxNumber].slice(indexOfLabel + 1)];
+                boxHashMap[boxNumber] = [...boxHashMap[boxNumber].slice(0, indexOfLabel), boxLabelAndLens, ...boxHashMap[boxNumber].slice(indexOfLabel + 1)];                
                 continue;
             } 
             
@@ -60,22 +60,20 @@ export const dayFifteenSolution = async () : Promise<number[]> => {
 
             if (boxHashMap[boxNumber] === undefined) {
                 boxHashMap[boxNumber] = [boxLabelAndLens];
+                continue;
             }
         }
     }
 
-    console.log(boxHashMap)
-
-    let focussingPower = 0;
+    let focusingPower = 0;
 
     for (let box of Object.keys(boxHashMap)) {
         let numberBox : number = Number(box);
         for (let i :  number = 0; i < boxHashMap[numberBox].length; i++) {
-            console.log("hello", boxHashMap[numberBox][i].replace(/[a-zA-Z]/g, ""))
-            focussingPower += ((numberBox + 1) * (i + 1) * (Number(boxHashMap[numberBox][i].replace(/[a-zA-Z]/g, ""))));
+            focusingPower += ((numberBox + 1) * (i + 1) * (Number(boxHashMap[numberBox][i].replace(/[a-zA-Z]/g, ""))));
         }
     }
 
 
-    return [totalHashResults, focussingPower];
+    return [totalHashResults, focusingPower];
 }
