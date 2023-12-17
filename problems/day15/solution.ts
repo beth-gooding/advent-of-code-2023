@@ -72,7 +72,7 @@ export const dayFifteenSolution = async () : Promise<number[]> => {
         let numberBox : number = Number(box);
         for (let i :  number = 0; i < boxHashMap[numberBox].length; i++) {
             console.log("hello", boxHashMap[numberBox][i].replace(/[a-zA-Z]/g, ""))
-            focussingPower += ((numberBox + 1) * (i) * (Number(boxHashMap[numberBox][i].replace(/[a-zA-Z]/g, ""))));
+            focussingPower += ((numberBox + 1) * (i + 1) * (Number(boxHashMap[numberBox][i].replace(/[a-zA-Z]/g, ""))));
         }
     }
 
