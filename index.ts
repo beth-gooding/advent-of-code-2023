@@ -114,13 +114,6 @@ await dayFourteenSolution().then((answer) => {
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });
 
-await dayFifteenSolution().then((answer) => {
-    console.log();
-    console.log("Day fifteen puzzle solutions:");
-    console.log(`The answer to part 1 is ${answer[0]}.`);
-    console.log(`The answer to part 2 is ${answer[1]}.`);
-});
-
 await daySixteenSolution().then((answer) => {
     console.log();
     console.log("Day sixteen puzzle solutions:");
@@ -132,5 +125,12 @@ await daySeventeenSolution().then((answer) => {
     console.log();
     console.log("Day seventeen puzzle solutions:");
     console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The answer to part 2 is ${answer[1]}.`);
+});
+
+await dayFifteenSolution().then((answer) => {
+    console.log();
+    console.log("Day fifteen puzzle solutions:");
+    console.log(`The total sum of hash values in the initialisation sequence is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });

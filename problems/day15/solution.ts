@@ -3,20 +3,36 @@ import * as readline from 'node:readline/promises';
 
 const inputFile = './problems/day15/input.txt';
 
+const hashValue = (inputString : string) : number => {
+    let workingInputValue : number = 0;
+
+    for (let i : number = 0; i < inputString.length; i++) {
+        workingInputValue += inputString.charCodeAt(i);
+        workingInputValue *= 17;
+        workingInputValue = workingInputValue % 256
+    }
+
+    return workingInputValue;
+}
+
 export const dayFifteenSolution = async () : Promise<number[]> => {
-    let inputInterface : readline.Interface = readline.createInterface({
+    let initialisationInputInterface : readline.Interface = readline.createInterface({
         input : f.createReadStream(inputFile)
     });
 
-
-    for await (let line of inputInterface) {
-
-        // PART 1
-
-
-        // PART 2
-
+    let initialisationInput : string[] = [];
+    for await (let line of initialisationInputInterface) {
+        initialisationInput = line.split(",");
     }
 
-    return [1, 2];
+    // PART 1
+    let totalHashResults : number = 0;
+    for (let input of initialisationInput) {
+        totalHashResults += hashValue(input);
+    }
+
+
+    // PART 2
+
+    return [totalHashResults, 2];
 }
