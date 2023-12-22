@@ -1,22 +1,26 @@
 import * as f from 'fs';
 import * as readline from 'node:readline/promises';
 
-const inputFile = './problems/day16/input.txt';
+const inputFile = './problems/day16/exampleInput.txt';
 
 export const daySixteenSolution = async () : Promise<number[]> => {
-    let inputInterface : readline.Interface = readline.createInterface({
+    let contraptionMapInterface : readline.Interface = readline.createInterface({
         input : f.createReadStream(inputFile)
     });
 
-
-    for await (let line of inputInterface) {
-
-        // PART 1
-
-
-        // PART 2
-
+    let contraptionMap : string[] = [];
+    for await (let mapLine of contraptionMapInterface) {
+        contraptionMap.push(mapLine);
     }
+    console.log(contraptionMap)
+
+    let currentDirection : string = "R";
+    let energisedTiles : number[][] = [];
+
+    // PART 1
+    
+
+    // PART 2
 
     return [1, 2];
 }
