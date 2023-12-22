@@ -174,3 +174,10 @@ await dayTwentyTwoSolution().then((answer) => {
     console.log(`The answer to part 1 is ${answer[0]}.`);
     console.log(`The answer to part 2 is ${answer[1]}.`);
 });
+
+await dayEighteenSolution().then((answer) => {
+    console.log();
+    console.log("Day eighteen puzzle solutions:");
+    console.log(`The answer to part 1 is ${answer[0]}.`);
+    console.log(`The answer to part 2 is ${answer[1]}.`);
+});
